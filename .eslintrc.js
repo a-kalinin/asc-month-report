@@ -43,6 +43,7 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 'off',
     'react/prop-types': 'off',
     'react/jsx-uses-react': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'import/no-named-as-default': 0,
@@ -113,5 +114,9 @@ module.exports = {
       files: ['src/pages/**/*'],
       rules: { 'react/function-component-definition': 'off' },
     },
+  ],
+  ignorePatterns: [
+    'src/utils/Roboto-Light-normal.js',
+    'src/utils/Roboto-Medium-bold.js',
   ],
 };
