@@ -1,12 +1,25 @@
-import { Container } from '@mantine/core';
+import { Box, Container, Flex } from '@mantine/core';
 import React from 'react';
 
 import ReportForm from '../ReportForm/ReportForm';
 
 export default function Content() {
   return (
-    <Container data-testid="Content">
-      <ReportForm />
-    </Container>
+    <Flex
+      data-testid="Content"
+      direction="column"
+      sx={{
+        minHeight: '100%',
+        flexGrow: 1,
+      }}
+    >
+      <Container>
+        <ReportForm />
+      </Container>
+      <Box sx={{ textAlign: 'end', marginTop: 'auto' }}>
+        @Alexandr Kalinin
+      </Box>
+    </Flex>
+
   );
 }

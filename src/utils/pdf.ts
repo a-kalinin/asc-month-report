@@ -163,8 +163,8 @@ class GenPdf {
   };
 }
 
-export const createPdf = (data: FormValuesT) => {
+export default function createPdf(data: FormValuesT) {
   const pdf = new GenPdf(data);
   pdf.renderReport();
   pdf.save();
-};
+}

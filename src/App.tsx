@@ -31,7 +31,25 @@ function App() {
               </Flex>
             )}
             styles={(theme) => ({
-              main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
+              root: {
+                minHeight: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+              },
+              body: {
+                flexGrow: 1,
+                display: 'flex',
+                flexDirection: 'column',
+              },
+              main: {
+                display: 'flex',
+                flexDirection: 'column',
+                backgroundColor: theme.colorScheme === 'dark'
+                  ? theme.colors.dark[8]
+                  : theme.colors.gray[0],
+                minHeight: 'auto',
+                flexGrow: 1,
+              },
             })}
           >
             <Content />

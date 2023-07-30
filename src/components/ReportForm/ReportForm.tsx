@@ -5,7 +5,7 @@ import { MonthPickerInput } from '@mantine/dates';
 import React from 'react';
 
 import { useFormContext } from '../../context/FormContext';
-import { createPdf } from '../../utils/pdf';
+import createPdf from '../../utils/pdf';
 
 export default function ReportForm() {
   const form = useFormContext();

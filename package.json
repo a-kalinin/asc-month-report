@@ -29,7 +29,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "install:husky": "husky install",
-    "pre-commit": "tsc --noEmit && lint-staged --config config/lint-staged.config.mjs"
+    "pre-commit": "tsc --noEmit && lint-staged"
   },
   "eslintConfig": {
     "extends": [
@@ -61,5 +61,10 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint"
+    ]
   }
 }
