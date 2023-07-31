@@ -5,6 +5,7 @@ export type FormValuesT = {
   projects: ProjectT[]
   name: string,
   position: string,
+  totalHours: number,
 };
 
 export type ProjectT = {

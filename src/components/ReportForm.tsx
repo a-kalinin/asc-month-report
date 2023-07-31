@@ -7,8 +7,8 @@ import React from 'react';
 
 import { useFormContext } from '../context/FormContext';
 import { generateProject } from '../utils/generators';
+import createPdf from '../utils/pdf';
 import Project from './Project';
-// import createPdf from '../../utils/pdf';
 
 export default function ReportForm() {
   const form = useFormContext();
@@ -17,8 +17,8 @@ export default function ReportForm() {
       component="form"
       w="100%"
       data-testid="ReportForm"
-      // onSubmit={form?.onSubmit((values) => createPdf(values))}
-      onSubmit={form?.onSubmit((values) => console.info(values))}
+      onSubmit={form?.onSubmit((values) => createPdf(values))}
+      // onSubmit={form?.onSubmit((values) => console.info(values))}
     >
       <Title order={3} mb="xs">
         Данные для отчета
