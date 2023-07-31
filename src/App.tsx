@@ -42,6 +42,7 @@ function App() {
                 flexDirection: 'column',
               },
               main: {
+                width: 'auto',
                 display: 'flex',
                 flexDirection: 'column',
                 backgroundColor: theme.colorScheme === 'dark'

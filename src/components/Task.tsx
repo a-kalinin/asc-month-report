@@ -43,38 +43,34 @@ export default function Task({
           {index + 1}.
         </Text>
         <Grid gutter="sm">
-          <Grid.Col xs={6}>
-            <Grid gutter="sm">
-              <Grid.Col xs={12}>
-                <TextInput
-                  label="Задача"
-                  placeholder="Введите задачу или мероприятие"
-                  required
-                  {...form?.getInputProps(`projects.${project}.tasks.${index}.name`)}
-                />
-              </Grid.Col>
-
-              <Grid.Col xs={6} sm={6}>
-                <TextInput
-                  label="Дней"
-                  {...daysProps}
-                  onChange={onDaysChange}
-                />
-              </Grid.Col>
-
-              <Grid.Col xs={6}>
-                <TextInput
-                  label="Часов"
-                  placeholder="00"
-                  required
-                  {...hoursProps}
-                  onChange={onHoursChange}
-                />
-              </Grid.Col>
-            </Grid>
+          <Grid.Col span={12} sm={6}>
+            <TextInput
+              label="Задача"
+              placeholder="Введите задачу или мероприятие"
+              required
+              {...form?.getInputProps(`projects.${project}.tasks.${index}.name`)}
+            />
           </Grid.Col>
 
-          <Grid.Col xs={6}>
+          <Grid.Col span={6} sm={3}>
+            <TextInput
+              label="Дней"
+              {...daysProps}
+              onChange={onDaysChange}
+            />
+          </Grid.Col>
+
+          <Grid.Col span={6} sm={3}>
+            <TextInput
+              label="Часов"
+              placeholder="00"
+              required
+              {...hoursProps}
+              onChange={onHoursChange}
+            />
+          </Grid.Col>
+
+          <Grid.Col span={12}>
             <Textarea
               label="Примечания"
               {...form?.getInputProps(`projects.${project}.tasks.${index}.comment`)}
