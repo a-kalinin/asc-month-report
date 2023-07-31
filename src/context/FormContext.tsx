@@ -60,6 +60,17 @@ export default function FormContextProvider({
     validate: {
       // start: (/* value, values */) => 'Error',
       // end: (/* value, values */) => null,
+      projects: {
+        tasks: {
+          hours: (value) => {
+            const val = Number(value);
+            if (Number.isNaN(val) || val === 0) {
+              return 'Количество часов не верно';
+            }
+            return null;
+          },
+        },
+      },
     },
   });
   const prevValues = usePrevious(form.values);

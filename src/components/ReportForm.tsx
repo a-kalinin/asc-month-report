@@ -3,6 +3,7 @@ import {
   Button, Flex, Grid, MediaQuery, TextInput, Title,
 } from '@mantine/core';
 import { MonthPickerInput } from '@mantine/dates';
+import { useDisclosure } from '@mantine/hooks';
 import React from 'react';
 
 import { FormValuesT } from '../@types/form';
@@ -10,9 +11,11 @@ import { useFormContext } from '../context/FormContext';
 import { generateProject } from '../utils/generators';
 import createPdf from '../utils/pdf';
 import Project from './Project';
+import Settings from './Settings';
 
 export default function ReportForm() {
   const form = useFormContext();
+  const [opened, { open, close }] = useDisclosure(false);
 
   const onSubmit = (values: FormValuesT) => {
     form.setValues({
@@ -38,9 +41,14 @@ export default function ReportForm() {
       data-testid="ReportForm"
       onSubmit={form?.onSubmit(onSubmit)}
     >
-      <Title order={3} mb="xs">
-        Данные для отчета
-      </Title>
+      <Flex align="center">
+        <Title order={3} mb="xs">
+          Данные для отчета
+        </Title>
+        <Button ml="auto" variant="light" onClick={open}>
+          Настройки
+        </Button>
+      </Flex>
       <Flex
         direction="column"
         gap="md"
@@ -104,6 +112,7 @@ export default function ReportForm() {
           </Button>
         </Box>
       </Flex>
+      <Settings opened={opened} onClose={close} title="Настройки" />
     </Box>
   );
 }
