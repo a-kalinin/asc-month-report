@@ -73,7 +73,8 @@ class GenPdf {
           comment,
         ])),
     )
-    .map((el, i) => ([i + 1, ...el]));
+    .map((el, i) => ([i + 1, ...el]))
+    .concat([[]]);
 
   static produceTableFooter = ({
     totalHours,

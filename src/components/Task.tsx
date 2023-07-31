@@ -56,7 +56,7 @@ export default function Task({
 
               <Grid.Col xs={6} sm={6}>
                 <TextInput
-                  label="Количество дней"
+                  label="Дней"
                   {...daysProps}
                   onChange={onDaysChange}
                 />
@@ -64,7 +64,8 @@ export default function Task({
 
               <Grid.Col xs={6}>
                 <TextInput
-                  label="Количество часов"
+                  label="Часов"
+                  placeholder="00"
                   required
                   {...hoursProps}
                   onChange={onHoursChange}

@@ -1,6 +1,6 @@
 import {
   Box,
-  Button, Card, Flex, Grid, TextInput, Title,
+  Button, Card, Flex, Grid, MediaQuery, TextInput, Title,
 } from '@mantine/core';
 import { MonthPickerInput } from '@mantine/dates';
 import React from 'react';
@@ -65,18 +65,20 @@ export default function ReportForm() {
           <Project key={index} index={index} />
         ))}
         <Flex gap="sm">
-          <Button
-            ml="auto"
-            variant="light"
-            onClick={() => {
-              form.setFieldValue('projects', [
-                ...form.values.projects,
-                generateProject(),
-              ]);
-            }}
-          >
-            Добавить проект
-          </Button>
+          <MediaQuery styles={(theme) => ({ marginRight: theme.spacing.md })} largerThan="xs">
+            <Button
+              variant="light"
+              mx="auto"
+              onClick={() => {
+                form.setFieldValue('projects', [
+                  ...form.values.projects,
+                  generateProject(),
+                ]);
+              }}
+            >
+              Добавить проект
+            </Button>
+          </MediaQuery>
         </Flex>
 
         <Box ta="center">
