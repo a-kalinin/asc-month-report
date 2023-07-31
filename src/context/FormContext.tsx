@@ -3,7 +3,8 @@ import { useLocalStorage, usePrevious } from '@mantine/hooks';
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 
-import { FormValuesT } from '../@types/form';
+import { FormValuesT, ProjectT } from '../@types/form';
+import { generateProject } from '../utils/generators';
 
 type PropsT = {
   children?: React.ReactNode,
@@ -23,16 +24,16 @@ export default function FormContextProvider({
     getInitialValueInEffect: false,
     defaultValue: '',
   });
-  const [savedProject, setSavedProject] = useLocalStorage({
-    key: 'report/project',
+  const [savedProjects, setSavedProjects] = useLocalStorage<ProjectT[]>({
+    key: 'report/projects',
     getInitialValueInEffect: false,
-    defaultValue: '',
+    defaultValue: [generateProject()],
   });
-  const [savedTask, setSavedTask] = useLocalStorage({
-    key: 'report/task',
-    getInitialValueInEffect: false,
-    defaultValue: '',
-  });
+  // const [savedTask, setSavedTask] = useLocalStorage({
+  //   key: 'report/task',
+  //   getInitialValueInEffect: false,
+  //   defaultValue: '',
+  // });
   const [savedPosition, setSavedPosition] = useLocalStorage({
     key: 'report/position',
     getInitialValueInEffect: false,
@@ -43,11 +44,7 @@ export default function FormContextProvider({
       month: new Date(dayjs().startOf('month').valueOf()),
       start: new Date(dayjs().startOf('month').valueOf()),
       end: new Date(dayjs().endOf('month').valueOf()),
-      project: savedProject,
-      task: savedTask,
-      days: '',
-      hours: '',
-      comment: '',
+      projects: savedProjects,
       name: savedName,
       position: savedPosition,
     },
@@ -68,32 +65,36 @@ export default function FormContextProvider({
     if (prevValues?.name !== form.values.name) {
       setSavedName(form.values.name);
     }
-    if (prevValues?.project !== form.values.project) {
-      setSavedProject(form.values.project);
+    if (prevValues?.projects !== form.values.projects) {
+      setSavedProjects(form.values.projects);
     }
-    if (prevValues?.task !== form.values.task) {
-      setSavedTask(form.values.task);
-    }
-    if (prevValues?.position !== form.values.position) {
-      setSavedPosition(form.values.position);
-    }
-    if (
-      prevValues?.days !== form.values.days
-      && prevValues?.hours === form.values.hours
-    ) {
-      form.setValues({
-        hours: form.values.days && String(Number(form.values.days) * 8),
-      });
-    }
-    if (
-      prevValues?.hours !== form.values.hours
-      && prevValues?.days === form.values.days
-    ) {
-      form.setValues({
-        days: form.values.hours && String(Number(form.values.hours) / 8 || ''),
-      });
-    }
-  }, [prevValues, form, setSavedName, setSavedProject, setSavedTask, setSavedPosition]);
+    // if (prevValues?.task !== form.values.task) {
+    //   setSavedTask(form.values.task);
+    // }
+    // if (prevValues?.position !== form.values.position) {
+    //   setSavedPosition(form.values.position);
+    // }
+    // if (
+    //   prevValues?.days !== form.values.days
+    //   && prevValues?.hours === form.values.hours
+    // ) {
+    //   form.setValues({
+    //     hours: form.values.days && String(Number(form.values.days) * 8),
+    //   });
+    // }
+    // if (
+    //   prevValues?.hours !== form.values.hours
+    //   && prevValues?.days === form.values.days
+    // ) {
+    //   form.setValues({
+    //     days: form.values.hours && String(Number(form.values.hours) / 8 || ''),
+    //   });
+    // }
+  }, [
+    prevValues, form, setSavedName,
+    // setSavedProject, setSavedTask,
+    setSavedPosition, setSavedProjects,
+  ]);
 
   return (
     <FormProvider form={form}>

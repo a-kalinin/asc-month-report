@@ -4,7 +4,7 @@ import {
 import { DatesProvider } from '@mantine/dates';
 import React from 'react';
 
-import Content from './components/Content/Content';
+import Content from './components/Content';
 import themeOverride from './const/themeOverride';
 import FormContextProvider from './context/FormContext';
 

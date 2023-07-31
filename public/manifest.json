@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Отчеты о работе",
+  "name": "ASC - Конструктор отчетов о проделанной работе",
   "icons": [
     {
       "src": "favicon.ico",

@@ -1,7 +1,7 @@
 import { Box, Container, Flex } from '@mantine/core';
 import React from 'react';
 
-import ReportForm from '../ReportForm/ReportForm';
+import ReportForm from './ReportForm';
 
 export default function Content() {
   return (
@@ -13,7 +13,7 @@ export default function Content() {
         flexGrow: 1,
       }}
     >
-      <Container>
+      <Container p={0}>
         <ReportForm />
       </Container>
       <Box sx={{ textAlign: 'end', marginTop: 'auto' }}>
