@@ -6,6 +6,8 @@ export type FormValuesT = {
   name: string,
   position: string,
   totalHours: number,
+  projectsList: string[],
+  tasksList: string[],
 };
 
 export type ProjectT = {

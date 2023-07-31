@@ -1,6 +1,6 @@
 import {
-  Button, Card, CloseButton, Flex, MediaQuery,
-  TextInput, Title,
+  Autocomplete,
+  Button, Card, CloseButton, Flex, MediaQuery, Title,
 } from '@mantine/core';
 import React from 'react';
 
@@ -27,7 +27,8 @@ export default function Project({
   return (
     <Card data-testid="Project">
       <Flex gap="md" align="flex-end">
-        <TextInput
+        <Autocomplete
+          data={form.values.projectsList}
           label="Проект/задача"
           placeholder="Введите имя проекта или задачу"
           required

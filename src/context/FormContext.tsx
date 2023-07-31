@@ -35,6 +35,16 @@ export default function FormContextProvider({
     getInitialValueInEffect: false,
     defaultValue: '',
   });
+  const [projectsList, setProjectsList] = useLocalStorage<string[]>({
+    key: 'report/projectsList',
+    getInitialValueInEffect: false,
+    defaultValue: [],
+  });
+  const [tasksList, setTasksList] = useLocalStorage<string[]>({
+    key: 'report/tasksList',
+    getInitialValueInEffect: false,
+    defaultValue: [],
+  });
   const form = useForm({
     initialValues: {
       month: new Date(dayjs().startOf('month').valueOf()),
@@ -44,6 +54,8 @@ export default function FormContextProvider({
       name: savedName,
       position: savedPosition,
       totalHours: 0,
+      projectsList,
+      tasksList,
     },
     validate: {
       // start: (/* value, values */) => 'Error',
@@ -66,9 +78,15 @@ export default function FormContextProvider({
       setSavedProjects(form.values.projects);
       form.setValues({ totalHours: countTotalHours(form.values.projects) });
     }
+    if (prevValues?.projectsList !== form.values.projectsList) {
+      setProjectsList(form.values.projectsList);
+    }
+    if (prevValues?.tasksList !== form.values.tasksList) {
+      setTasksList(form.values.tasksList);
+    }
   }, [
-    prevValues, form, setSavedName,
-    setSavedPosition, setSavedProjects,
+    prevValues, form, setSavedName, setSavedPosition,
+    setSavedProjects, setProjectsList, setTasksList,
   ]);
 
   return (

@@ -5,6 +5,7 @@ import {
 import { MonthPickerInput } from '@mantine/dates';
 import React from 'react';
 
+import { FormValuesT } from '../@types/form';
 import { useFormContext } from '../context/FormContext';
 import { generateProject } from '../utils/generators';
 import createPdf from '../utils/pdf';
@@ -12,13 +13,30 @@ import Project from './Project';
 
 export default function ReportForm() {
   const form = useFormContext();
+
+  const onSubmit = (values: FormValuesT) => {
+    form.setValues({
+      projectsList: Array.from(new Set(
+        form.values.projectsList
+          .concat(form.values.projects.map((el) => el.name)),
+      )),
+      tasksList: Array.from(new Set(
+        form.values.tasksList.concat(
+          form.values.projects.flatMap(
+            (el) => el.tasks.map((el2) => el2.name),
+          ),
+        ),
+      )),
+    });
+    createPdf(values);
+  };
+
   return (
     <Box
       component="form"
       w="100%"
       data-testid="ReportForm"
-      onSubmit={form?.onSubmit((values) => createPdf(values))}
-      // onSubmit={form?.onSubmit((values) => console.info(values))}
+      onSubmit={form?.onSubmit(onSubmit)}
     >
       <Title order={3} mb="xs">
         Данные для отчета

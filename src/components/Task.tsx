@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   CloseButton, Divider,
   Flex,
@@ -44,8 +45,9 @@ export default function Task({
         </Text>
         <Grid gutter="sm">
           <Grid.Col span={12} sm={6}>
-            <TextInput
+            <Autocomplete
               label="Задача"
+              data={form.values.tasksList}
               placeholder="Введите задачу или мероприятие"
               required
               {...form?.getInputProps(`projects.${project}.tasks.${index}.name`)}
