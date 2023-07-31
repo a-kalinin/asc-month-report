@@ -3,6 +3,7 @@ import Pdf from 'jspdf';
 import autoTable, { RowInput } from 'jspdf-autotable';
 
 import { FormValuesT } from '../@types/form';
+import styles from './tableStyles';
 import { generateFileName } from './various';
 
 import './Roboto-Light-normal';
@@ -20,7 +21,7 @@ class GenPdf {
     this.doc.setFont('Roboto');
   }
 
-  static produceHeader = (month: Date | null): RowInput[] => ([
+  static produceTitle = (month: Date | null): RowInput[] => ([
     [
       {
         content: 'Общество с ограниченной ответственностью «АЛЬМА Сервисез Компани»',
@@ -82,21 +83,36 @@ class GenPdf {
       {
         content: dayjs(month).format('Итого за MMMM YYYY года:'),
         colSpan: 5,
+        styles: styles.footer,
       },
       {
         content: totalHours,
         styles: {
+          ...styles.footer,
           fontSize: 15,
           halign: 'center',
         },
       },
+      {
+        content: '',
+        styles: styles.footer,
+      },
     ],
+  ]);
+
+  static produceTablePersonal = ({
+    name,
+    position,
+  }: FormValuesT): RowInput[] => ([
+    [{ content: '', styles: styles.personal, colSpan: 7 }],
+    [{ content: `ФИО: ${name}`, styles: styles.personal, colSpan: 7 }],
+    [{ content: `Должность: ${position}`, styles: styles.personal, colSpan: 7 }],
   ]);
 
   renderReport = () => {
     autoTable(this.doc, {
       theme: 'plain',
-      startY: 5,
+      startY: 0,
       styles: {
         fontSize: 20,
         font: 'Roboto',
@@ -105,12 +121,12 @@ class GenPdf {
         halign: 'center',
         fontStyle: 'bold',
       },
-      body: GenPdf.produceHeader(this.data.month),
+      body: GenPdf.produceTitle(this.data.month),
     });
 
     autoTable(this.doc, {
       theme: 'grid',
-      startY: 50,
+      startY: 40,
       styles: {
         font: 'Roboto',
       },
@@ -132,25 +148,10 @@ class GenPdf {
         valign: 'middle',
       },
       head: GenPdf.produceTableHeader(),
-      body: GenPdf.produceTableBody(this.data),
-      foot: GenPdf.produceTableFooter(this.data),
-    });
-
-    autoTable(this.doc, {
-      theme: 'plain',
-      startY: 100,
-      styles: {
-        font: 'Roboto',
-      },
-      bodyStyles: {
-        fontSize: 12,
-        textColor: '#000000',
-        halign: 'right',
-        fontStyle: 'bold',
-      },
       body: [
-        [`ФИО: ${this.data.name}`],
-        [`Должность: ${this.data.position}`],
+        ...GenPdf.produceTableBody(this.data),
+        ...GenPdf.produceTableFooter(this.data),
+        ...GenPdf.produceTablePersonal(this.data),
       ],
     });
   };
