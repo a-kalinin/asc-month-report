@@ -1,6 +1,6 @@
 import {
   Box,
-  Button, Card, Flex, Grid, MediaQuery, TextInput, Title,
+  Button, Flex, Grid, MediaQuery, TextInput, Title,
 } from '@mantine/core';
 import { MonthPickerInput } from '@mantine/dates';
 import React from 'react';
@@ -27,37 +27,36 @@ export default function ReportForm() {
         direction="column"
         gap="md"
       >
-        <Card>
-          <Grid gutter="sm">
+        {/* <Card> */}
+        <Grid gutter="sm">
+          <Grid.Col xs={6}>
+            <MonthPickerInput
+              label="Месяц/Год"
+              placeholder="Выберите месяц"
+              required
+              {...form?.getInputProps('month')}
+            />
+          </Grid.Col>
+        </Grid>
 
-            <Grid.Col xs={6}>
-              <MonthPickerInput
-                label="Месяц/Год"
-                placeholder="Выберите месяц"
-                required
-                {...form?.getInputProps('month')}
-              />
-            </Grid.Col>
-          </Grid>
+        <Grid gutter="sm">
+          <Grid.Col sm={6}>
+            <TextInput
+              label="ФИО"
+              required
+              {...form?.getInputProps('name')}
+            />
+          </Grid.Col>
 
-          <Grid gutter="sm">
-            <Grid.Col sm={6}>
-              <TextInput
-                label="ФИО"
-                required
-                {...form?.getInputProps('name')}
-              />
-            </Grid.Col>
-
-            <Grid.Col sm={6}>
-              <TextInput
-                label="Должность"
-                required
-                {...form?.getInputProps('position')}
-              />
-            </Grid.Col>
-          </Grid>
-        </Card>
+          <Grid.Col sm={6}>
+            <TextInput
+              label="Должность"
+              required
+              {...form?.getInputProps('position')}
+            />
+          </Grid.Col>
+        </Grid>
+        {/* </Card> */}
 
         <Title order={5}>Работы</Title>
         {form.values.projects.map((_, index) => (
