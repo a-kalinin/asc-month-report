@@ -14,7 +14,7 @@ const styles: Record<'footer' | 'personal', Partial<Styles>> = {
     },
   },
   personal: {
-    fontSize: 12,
+    fontSize: 10,
     textColor: '#000000',
     halign: 'right',
     fontStyle: 'bold',

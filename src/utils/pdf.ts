@@ -33,12 +33,6 @@ class GenPdf {
     ],
     [
       {
-        content: '',
-        styles: { fontSize: 5 },
-      },
-    ],
-    [
-      {
         content: 'Отчёт о выполненной работе',
       },
     ],
@@ -61,20 +55,25 @@ class GenPdf {
 
   static produceTableBody = ({
     start, end, projects,
-  }: FormValuesT): RowInput[] => projects
-    .flatMap(
-      ({ tasks, name: project }) => tasks
-        .map(({ hours, comment, name: task }) => ([
-          dayjs(start).format('DD.MM.YY'),
-          dayjs(end).format('DD.MM.YY'),
-          project,
-          task,
-          hours,
-          comment,
-        ])),
-    )
-    .map((el, i) => ([i + 1, ...el]))
-    .concat([[]]);
+  }: FormValuesT): RowInput[] => {
+    const result = projects
+      .flatMap(
+        ({ tasks, name: project }) => tasks
+          .map(({ hours, comment, name: task }) => ([
+            dayjs(start).format('DD.MM.YY'),
+            dayjs(end).format('DD.MM.YY'),
+            project,
+            task,
+            hours,
+            comment,
+          ])),
+      )
+      .map((el, i) => ([i + 1, ...el]));
+    if (result.length < 5) {
+      result.push(...(new Array(5 - result.length).fill('')));
+    }
+    return result;
+  };
 
   static produceTableFooter = ({
     totalHours,
@@ -108,6 +107,35 @@ class GenPdf {
     [{ content: '', styles: styles.personal, colSpan: 7 }],
     [{ content: `ФИО: ${name}`, styles: styles.personal, colSpan: 7 }],
     [{ content: `Должность: ${position}`, styles: styles.personal, colSpan: 7 }],
+    [
+      { content: '', styles: styles.personal, colSpan: 6 },
+      {
+        content: '',
+        styles: {
+          ...styles.personal,
+          lineWidth: {
+            bottom: 0.5,
+          },
+          lineColor: '#000000',
+          fontSize: 12,
+        },
+        colSpan: 1,
+      },
+    ],
+    [
+      { content: '', styles: styles.personal, colSpan: 6 },
+      {
+        content: 'Подпись',
+        styles: {
+          ...styles.personal,
+          fontSize: 8,
+          fontStyle: 'normal',
+          halign: 'center',
+          valign: 'top',
+        },
+        colSpan: 1,
+      },
+    ],
   ]);
 
   renderReport = () => {
@@ -115,7 +143,7 @@ class GenPdf {
       theme: 'plain',
       startY: 0,
       styles: {
-        fontSize: 20,
+        fontSize: 16,
         font: 'Roboto',
         textColor: '#000000',
         fillColor: '#FFFFFF',
@@ -127,7 +155,8 @@ class GenPdf {
 
     autoTable(this.doc, {
       theme: 'grid',
-      startY: 40,
+      startY: 30,
+      showHead: 'firstPage',
       styles: {
         font: 'Roboto',
       },
@@ -138,7 +167,7 @@ class GenPdf {
         fontStyle: 'bold',
       },
       bodyStyles: {
-        fontSize: 10,
+        fontSize: 9,
         textColor: '#000000',
         halign: 'center',
       },
