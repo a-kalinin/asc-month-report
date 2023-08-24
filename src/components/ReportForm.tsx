@@ -4,12 +4,13 @@ import {
 } from '@mantine/core';
 import { MonthPickerInput } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { FormValuesT } from '../@types/form';
 import { useFormContext } from '../context/FormContext';
 import { generateProject } from '../utils/generators';
 import createPdf from '../utils/pdf';
+import { countTotalHours } from '../utils/various';
 import Project from './Project';
 import Settings from './Settings';
 
@@ -33,6 +34,11 @@ export default function ReportForm() {
     });
     createPdf(values);
   };
+
+  const totalHours = useMemo(
+    () => countTotalHours(form.values.projects),
+    [form.values.projects],
+  );
 
   return (
     <Box
@@ -108,7 +114,7 @@ export default function ReportForm() {
 
         <Box ta="center">
           <Button type="submit" size="lg" mt="sm">
-            Сформировать отчет
+            Сформировать отчет ({totalHours} ч.)
           </Button>
         </Box>
       </Flex>
