@@ -86,7 +86,7 @@ export default function FormContextProvider({
       setSavedName(form.values.name);
     }
     if (prevValues?.position !== form.values.position) {
-      setSavedName(form.values.position);
+      setSavedPosition(form.values.position);
     }
     if (prevValues?.projects !== form.values.projects) {
       setSavedProjects(form.values.projects);
