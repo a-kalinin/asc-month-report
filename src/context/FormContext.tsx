@@ -85,6 +85,9 @@ export default function FormContextProvider({
     if (prevValues?.name !== form.values.name) {
       setSavedName(form.values.name);
     }
+    if (prevValues?.position !== form.values.position) {
+      setSavedName(form.values.position);
+    }
     if (prevValues?.projects !== form.values.projects) {
       setSavedProjects(form.values.projects);
       form.setValues({ totalHours: countTotalHours(form.values.projects) });
