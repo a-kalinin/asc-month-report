@@ -8,6 +8,12 @@ export type FormValuesT = {
   totalHours: number,
   projectsList: string[],
   tasksList: string[],
+  vacations: VacationT[]
+};
+
+export type VacationT = {
+  from: Date | null,
+  till: Date | null,
 };
 
 export type ProjectT = {

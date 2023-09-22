@@ -61,7 +61,7 @@ module.exports = {
         ],
       },
     ],
-    'no-console': ['warn', { allow: ['warn', 'info', 'error'] }],
+    'no-console': ['error', { allow: ['warn', 'info', 'error'] }],
     'no-multiple-empty-lines': ['error', { max: 2, maxEOF: 0, maxBOF: 0 }],
     'import/prefer-default-export': 'warn',
     'import/extensions': ['error', 'always', {

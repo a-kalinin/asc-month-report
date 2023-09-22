@@ -1,4 +1,4 @@
-import { ProjectT, TaskT } from '../@types/form';
+import { ProjectT, TaskT, VacationT } from '../@types/form';
 
 export function generateTask(): TaskT {
   return {
@@ -13,5 +13,12 @@ export function generateProject(): ProjectT {
   return {
     name: '',
     tasks: [generateTask()],
+  };
+}
+
+export function generateVacation(): VacationT {
+  return {
+    from: null,
+    till: null,
   };
 }

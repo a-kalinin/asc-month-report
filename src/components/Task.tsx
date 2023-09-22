@@ -85,8 +85,6 @@ export default function Task({
             if (!newTasks.length) {
               newTasks.push(generateTask());
             }
-            console.log('tasks', form.values.projects[project].tasks);
-            console.log('newTasks', newTasks);
             form.setFieldValue(`projects.${project}.tasks`, newTasks);
           }}
         />

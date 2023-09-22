@@ -1,6 +1,6 @@
 import {
   Box,
-  Button, Flex, Grid, MediaQuery, TextInput, Title,
+  Button, Flex, Grid, MediaQuery, Text, TextInput, Title,
 } from '@mantine/core';
 import { MonthPickerInput } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
@@ -8,11 +8,12 @@ import React, { useMemo } from 'react';
 
 import { FormValuesT } from '../@types/form';
 import { useFormContext } from '../context/FormContext';
-import { generateProject } from '../utils/generators';
+import { generateProject, generateVacation } from '../utils/generators';
 import createPdf from '../utils/pdf';
 import { countTotalHours } from '../utils/various';
 import Project from './Project';
 import Settings from './Settings';
+import Vacations from './Vacations';
 
 export default function ReportForm() {
   const form = useFormContext();
@@ -111,6 +112,37 @@ export default function ReportForm() {
             </Button>
           </MediaQuery>
         </Flex>
+
+        {form.values.vacations.length > 0 && (
+          <>
+            <Title order={5}>Отпуск</Title>
+            <Vacations />
+          </>
+        )}
+        <Flex gap="sm">
+          <MediaQuery styles={(theme) => ({ marginRight: theme.spacing.md })} largerThan="xs">
+            <Button
+              variant="light"
+              mx="auto"
+              onClick={() => {
+                form.setFieldValue('vacations', [
+                  ...form.values.vacations,
+                  generateVacation(),
+                ]);
+              }}
+            >
+              Добавить отпуск
+            </Button>
+          </MediaQuery>
+        </Flex>
+
+        {Object.values(form.errors).length > 0 && (
+          Object.values(form.errors).map((msg) => (
+            <Text color="red">
+              - {msg}
+            </Text>
+          ))
+        )}
 
         <Box ta="center">
           <Button type="submit" size="lg" mt="sm">

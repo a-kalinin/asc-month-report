@@ -3,7 +3,7 @@ import { useLocalStorage, usePrevious } from '@mantine/hooks';
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 
-import { FormValuesT, ProjectT } from '../@types/form';
+import { FormValuesT, ProjectT, VacationT } from '../@types/form';
 import { generateProject } from '../utils/generators';
 import { countTotalHours } from '../utils/various';
 
@@ -45,6 +45,11 @@ export default function FormContextProvider({
     getInitialValueInEffect: false,
     defaultValue: [],
   });
+  const [vacations, setVacationsList] = useLocalStorage<VacationT[]>({
+    key: 'report/vacations',
+    getInitialValueInEffect: false,
+    defaultValue: [],
+  });
   const form = useForm({
     initialValues: {
       month: new Date(dayjs().startOf('month').valueOf()),
@@ -56,6 +61,7 @@ export default function FormContextProvider({
       totalHours: 0,
       projectsList,
       tasksList,
+      vacations,
     },
     validate: {
       // start: (/* value, values */) => 'Error',
@@ -70,6 +76,14 @@ export default function FormContextProvider({
             return null;
           },
         },
+      },
+      vacations: (value) => {
+        if (
+          value.some((el) => !el.from || !el.till || el.from > el.till)
+        ) {
+          return 'Неправильные даты отпуска';
+        }
+        return null;
       },
     },
   });
@@ -98,9 +112,12 @@ export default function FormContextProvider({
     if (prevValues?.tasksList !== form.values.tasksList) {
       setTasksList(form.values.tasksList);
     }
+    if (prevValues?.vacations !== form.values.vacations) {
+      setVacationsList(form.values.vacations);
+    }
   }, [
     prevValues, form, setSavedName, setSavedPosition,
-    setSavedProjects, setProjectsList, setTasksList,
+    setSavedProjects, setProjectsList, setTasksList, setVacationsList,
   ]);
 
   return (
