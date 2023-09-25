@@ -75,6 +75,90 @@ class GenPdf {
     return result;
   };
 
+  static produceVacationsHeader = ({
+    vacations,
+  }: FormValuesT): RowInput[] => {
+    if (!vacations.length) {
+      return [];
+    }
+    const count = vacations
+      .map(({ from, till }) => (
+        !from || !till
+          ? 0
+          : dayjs(till).add(1, 'day').diff(from, 'day')
+      ))
+      .reduce((acc, el) => acc + el, 0);
+
+
+    return [
+      [{ content: '', styles: styles.personal, colSpan: 7 }],
+      [
+        {
+          content: `Отпуск - ${count} дней.`,
+          styles: {
+            halign: 'left',
+            fontSize: 12,
+            textColor: '#000000',
+            fillColor: '#FFFFFF',
+            fontStyle: 'bold',
+            lineWidth: {
+              top: 0,
+              left: 0,
+              right: 0,
+            },
+          },
+          colSpan: 7,
+        },
+      ],
+      [
+        {
+          content: '№ п/п',
+          styles: styles.header,
+        },
+        {
+          content: 'Дата начала отпуска',
+          styles: styles.header,
+        },
+        {
+          content: 'Дана окончания отпуска',
+          styles: styles.header,
+        },
+        {
+          content: 'Кол-во календарных дней',
+          styles: styles.header,
+        },
+        {
+          content: '',
+          styles: styles.emptyRight,
+          colSpan: 3,
+        },
+      ],
+    ];
+  };
+
+  static produceVacationsBody = ({
+    vacations,
+  }: FormValuesT): RowInput[] => (
+    vacations.length === 0
+      ? []
+      : vacations
+        .map(({ from, till }) => ([
+          dayjs(from).format('DD.MM.YY'),
+          dayjs(till).format('DD.MM.YY'),
+          dayjs(till).add(1, 'day').diff(from, 'day'),
+          {
+            content: '',
+            styles: {
+              ...styles.emptyRight,
+              lineWidth: { left: 0.25 },
+            },
+
+            colSpan: 3,
+          },
+        ]))
+        .map((el, i) => ([i + 1, ...el]))
+  );
+
   static produceTableFooter = ({
     totalHours,
     month,
@@ -153,6 +237,14 @@ class GenPdf {
       body: GenPdf.produceTitle(this.data.month),
     });
 
+    const reportBody = [
+      ...GenPdf.produceTableBody(this.data),
+      ...GenPdf.produceTableFooter(this.data),
+      ...GenPdf.produceVacationsHeader(this.data),
+      ...GenPdf.produceVacationsBody(this.data),
+      ...GenPdf.produceTablePersonal(this.data),
+    ];
+
     autoTable(this.doc, {
       theme: 'grid',
       startY: 30,
@@ -178,11 +270,7 @@ class GenPdf {
         valign: 'middle',
       },
       head: GenPdf.produceTableHeader(),
-      body: [
-        ...GenPdf.produceTableBody(this.data),
-        ...GenPdf.produceTableFooter(this.data),
-        ...GenPdf.produceTablePersonal(this.data),
-      ],
+      body: reportBody,
     });
   };
 

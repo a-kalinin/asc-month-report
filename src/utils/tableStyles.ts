@@ -1,14 +1,32 @@
 import { Styles } from 'jspdf-autotable';
 
-const styles: Record<'footer' | 'personal', Partial<Styles>> = {
+
+const headerStyles: Partial<Styles> = {
+  fontStyle: 'bold',
+  textColor: '#000000',
+  fillColor: '#e9ffff',
+  valign: 'middle',
+  halign: 'left',
+  lineWidth: {
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+};
+
+
+const styles: Record<
+  'header'
+  | 'footer'
+  | 'personal'
+  | 'emptyRight'
+  , Partial<Styles>
+> = {
+  header: headerStyles,
   footer: {
-    fontStyle: 'bold',
-    textColor: '#000000',
-    fillColor: '#e9ffff',
-    valign: 'middle',
-    halign: 'left',
+    ...headerStyles,
     lineWidth: {
-      bottom: 0,
+      top: 0.25,
       left: 0,
       right: 0,
     },
@@ -19,6 +37,13 @@ const styles: Record<'footer' | 'personal', Partial<Styles>> = {
     halign: 'right',
     fontStyle: 'bold',
     lineWidth: 0,
+  },
+  emptyRight: {
+    lineWidth: {
+      bottom: 0,
+      left: 0,
+      right: 0,
+    },
   },
 };
 

@@ -61,7 +61,7 @@ export default function VacationItem({
               readOnly
               value={
                 fromProps?.value && tillProps?.value
-                  ? dayjs(tillProps.value).diff(fromProps.value, 'day')
+                  ? dayjs(tillProps.value).add(1, 'day').diff(fromProps.value, 'day')
                   : ''
               }
             />
