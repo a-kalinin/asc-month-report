@@ -1,6 +1,7 @@
 import { Box, Container, Flex } from '@mantine/core';
 import React from 'react';
 
+import { ErrorBoundary } from './ErrorBoundary';
 import ReportForm from './ReportForm';
 
 export default function Content() {
@@ -14,7 +15,9 @@ export default function Content() {
       }}
     >
       <Container p={0}>
-        <ReportForm />
+        <ErrorBoundary>
+          <ReportForm />
+        </ErrorBoundary>
       </Container>
       <Box sx={{ textAlign: 'end', marginTop: 'auto' }}>
         @Alexandr Kalinin

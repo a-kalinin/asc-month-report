@@ -11,6 +11,7 @@ import { useFormContext } from '../context/FormContext';
 import { generateProject, generateVacation } from '../utils/generators';
 import createPdf from '../utils/pdf';
 import { countTotalHours } from '../utils/various';
+import { ErrorBoundary } from './ErrorBoundary';
 import Project from './Project';
 import Settings from './Settings';
 import Vacations from './Vacations';
@@ -60,80 +61,89 @@ export default function ReportForm() {
         direction="column"
         gap="md"
       >
-        {/* <Card> */}
-        <Grid gutter="sm">
-          <Grid.Col xs={6}>
-            <MonthPickerInput
-              label="Месяц/Год"
-              placeholder="Выберите месяц"
-              required
-              {...form?.getInputProps('month')}
-            />
-          </Grid.Col>
-        </Grid>
+        <ErrorBoundary>
+          <Grid gutter="sm">
+            <Grid.Col xs={6}>
+              <MonthPickerInput
+                label="Месяц/Год"
+                placeholder="Выберите месяц"
+                required
+                {...form?.getInputProps('month')}
+              />
+            </Grid.Col>
+          </Grid>
 
-        <Grid gutter="sm">
-          <Grid.Col sm={6}>
-            <TextInput
-              label="ФИО"
-              required
-              {...form?.getInputProps('name')}
-            />
-          </Grid.Col>
+          <Grid gutter="sm">
+            <Grid.Col sm={6}>
+              <TextInput
+                label="ФИО"
+                required
+                {...form?.getInputProps('name')}
+              />
+            </Grid.Col>
 
-          <Grid.Col sm={6}>
-            <TextInput
-              label="Должность"
-              required
-              {...form?.getInputProps('position')}
-            />
-          </Grid.Col>
-        </Grid>
-        {/* </Card> */}
+            <Grid.Col sm={6}>
+              <TextInput
+                label="Должность"
+                required
+                {...form?.getInputProps('position')}
+              />
+            </Grid.Col>
+          </Grid>
+        </ErrorBoundary>
+
 
         <Title order={5}>Работы</Title>
-        {form.values.projects.map((_, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <Project key={index} index={index} />
-        ))}
+        <ErrorBoundary>
+          {form.values.projects.map((_, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <Project key={index} index={index} />
+          ))}
+        </ErrorBoundary>
         <Flex gap="sm">
-          <MediaQuery styles={(theme) => ({ marginRight: theme.spacing.md })} largerThan="xs">
-            <Button
-              variant="light"
-              mx="auto"
-              onClick={() => {
-                form.setFieldValue('projects', [
-                  ...form.values.projects,
-                  generateProject(),
-                ]);
-              }}
-            >
-              Добавить проект
-            </Button>
-          </MediaQuery>
+          <ErrorBoundary>
+            <MediaQuery styles={(theme) => ({ marginRight: theme.spacing.md })} largerThan="xs">
+              <Button
+                variant="light"
+                mx="auto"
+                onClick={() => {
+                  form.setFieldValue('projects', [
+                    ...form.values.projects,
+                    generateProject(),
+                  ]);
+                }}
+              >
+                Добавить проект
+              </Button>
+            </MediaQuery>
+          </ErrorBoundary>
         </Flex>
 
         {form.values.vacations.length > 0 && (
           <>
             <Title order={5}>Отпуск</Title>
-            <Vacations />
+            <ErrorBoundary>
+              <Vacations />
+            </ErrorBoundary>
           </>
         )}
         <Flex gap="sm">
-          <MediaQuery styles={(theme) => ({ marginRight: theme.spacing.md })} largerThan="xs">
-            <Button
-              variant="light"
-              mx="auto"
-              onClick={() => {
-                form.setFieldValue('vacations', [
-                  ...form.values.vacations,
-                  generateVacation(),
-                ]);
-              }}
-            >
-              Добавить отпуск
-            </Button>
-          </MediaQuery>
+          <ErrorBoundary>
+            <MediaQuery styles={(theme) => ({ marginRight: theme.spacing.md })} largerThan="xs">
+              <Button
+                variant="light"
+                mx="auto"
+                onClick={() => {
+                  form.setFieldValue('vacations', [
+                    ...form.values.vacations,
+                    generateVacation(),
+                  ]);
+                }}
+              >
+                Добавить отпуск
+              </Button>
+            </MediaQuery>
+          </ErrorBoundary>
         </Flex>
 
         {Object.values(form.errors).length > 0 && (
@@ -144,13 +154,17 @@ export default function ReportForm() {
           ))
         )}
 
-        <Box ta="center">
-          <Button type="submit" size="lg" mt="sm">
-            Сформировать отчет ({totalHours} ч.)
-          </Button>
-        </Box>
+        <ErrorBoundary>
+          <Box ta="center">
+            <Button type="submit" size="lg" mt="sm">
+              Сформировать отчет ({totalHours} ч.)
+            </Button>
+          </Box>
+        </ErrorBoundary>
       </Flex>
-      <Settings opened={opened} onClose={close} title="Настройки" />
+      <ErrorBoundary>
+        <Settings opened={opened} onClose={close} title="Настройки" />
+      </ErrorBoundary>
     </Box>
   );
 }

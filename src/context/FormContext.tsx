@@ -49,6 +49,13 @@ export default function FormContextProvider({
     key: 'report/vacations',
     getInitialValueInEffect: false,
     defaultValue: [],
+    deserialize(value: string): VacationT[] {
+      const values = JSON.parse(value);
+      return values.map((el: VacationT) => ({
+        from: el.from ? new Date(el.from) : null,
+        till: el.till ? new Date(el.till) : null,
+      }));
+    },
   });
   const form = useForm({
     initialValues: {
